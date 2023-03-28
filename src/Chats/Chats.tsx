@@ -31,17 +31,19 @@ const Chats = ({ socket, username, room, newUser }) => {
   };
 
   useEffect(() => {
-      socket.on("receive_message", (data: string) => {
-        setMessageList((list: any[]) => [...list, data]);
-        console.log("message is ", data);
-      });
-
+    socket.on("receive_message", (data: string) => {
+      setMessageList((list: any[]) => [...list, data]);
+    });
   }, [socket]);
   return (
     <div className="chat-window">
       <h3 style={{ textAlign: "center" }}>
         {username} you are chatting live in room {room}
       </h3>
+      <p style={{ textAlign: "center" }}>
+        Invite your friends to join your chat with Room Id: {room}
+      </p>
+      <p style={{ textAlign: "center" }}>Have fun 🕺💃🏽🎉</p>
       <div className="chat-header">
         <p>Live Chat</p>
       </div>
@@ -51,7 +53,7 @@ const Chats = ({ socket, username, room, newUser }) => {
             <div
               key={index}
               className="message"
-              id={username === message.sender ? "other" : "you" }
+              id={username === message.sender ? "other" : "you"}
             >
               <div>
                 <div className="message-content">
