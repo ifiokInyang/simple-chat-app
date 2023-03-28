@@ -11,6 +11,7 @@ function App() {
   const [userName, setUserName] = useState<string>("");
   const [room, setRoom] = useState<string>("");
   const [showChat, setShowChat] = useState<boolean>(false);
+  const [newUser, setNewUser] = useState("");
 
   const handleRoomId = (
     event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
@@ -22,9 +23,16 @@ function App() {
     event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ) => {
     const { value } = event.target;
-    setUserName((previous) => (previous = value));
+    if (value !== userName) {
+      setUserName((previous) => (previous = value));
+      setNewUser(value);
+    } else {
+      setUserName((previous) => (previous = value));
+    }
   };
   const joinRoom = () => {
+    console.log("username is ", userName);
+    // setNewUser(userName)
     if (userName !== "" && room !== "") {
       socket.emit("join_room", room);
       setShowChat(true);
@@ -54,7 +62,12 @@ function App() {
             <button onClick={joinRoom}>Join a Chat Room</button>
           </div>
         ) : (
-          <Chats socket={socket} username={userName} room={room} />
+          <Chats
+            socket={socket}
+            newUser={newUser}
+            username={userName}
+            room={room}
+          />
         )}
       </div>
     </>

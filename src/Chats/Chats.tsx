@@ -2,7 +2,7 @@ import { IMessage } from "@/Utils/Interface/Interface.dto";
 import React, { ChangeEvent, useState, useEffect } from "react";
 import ScrollToBottom from "react-scroll-to-bottom";
 
-const Chats = ({ socket, username, room }) => {
+const Chats = ({ socket, username, room, newUser }) => {
   const [currentMessage, setCurrentMessage] = useState<string>("");
   const [messageList, setMessageList] = useState<IMessage[]>([]);
 
@@ -52,7 +52,7 @@ const Chats = ({ socket, username, room }) => {
             <div
               key={index}
               className="message"
-              id={username === message.sender ? "you" : "other"}
+              id={username === message.sender ? "other" : "you" }
             >
               <div>
                 <div className="message-content">
