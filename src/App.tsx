@@ -31,7 +31,6 @@ function App() {
     }
   };
   const joinRoom = () => {
-    console.log("username is ", userName);
     // setNewUser(userName)
     if (userName !== "" && room !== "") {
       socket.emit("join_room", room);

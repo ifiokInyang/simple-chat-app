@@ -31,12 +31,11 @@ const Chats = ({ socket, username, room, newUser }) => {
   };
 
   useEffect(() => {
-    return () => {
       socket.on("receive_message", (data: string) => {
         setMessageList((list: any[]) => [...list, data]);
         console.log("message is ", data);
       });
-    };
+
   }, [socket]);
   return (
     <div className="chat-window">
