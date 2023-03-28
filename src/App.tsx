@@ -1,61 +1,62 @@
-import React, { ChangeEvent, useState } from 'react';
-import './App.css';
+import React, { ChangeEvent, useState } from "react";
+import "./App.css";
 import io from "socket.io-client";
-import Chats from './Chats/Chats'
-
+import Chats from "./Chats/Chats";
 
 const ServerUrl = process.env.REACT_APP_SERVER_URL;
 
-const socket = io(`${ServerUrl}`)
-
+const socket = io(`${ServerUrl}`);
 
 function App() {
-
   const [userName, setUserName] = useState<string>("");
   const [room, setRoom] = useState<string>("");
-  const [showChat, setShowChat] = useState<boolean>(false)
+  const [showChat, setShowChat] = useState<boolean>(false);
 
-  const handleRoomId = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
+  const handleRoomId = (
+    event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  ) => {
     const { value } = event.target;
-    setRoom((previous) => previous = value)
-  }
-  const handleJoinChange = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
+    setRoom((previous) => (previous = value));
+  };
+  const handleJoinChange = (
+    event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  ) => {
     const { value } = event.target;
-    setUserName((previous) => previous = value)
-  }
-    const joinRoom = () => {
-      if(userName !== "" && room !== ""){
-        socket.emit("join_room", room)
-        setShowChat(true)
-      }
+    setUserName((previous) => (previous = value));
+  };
+  const joinRoom = () => {
+    if (userName !== "" && room !== "") {
+      socket.emit("join_room", room);
+      setShowChat(true);
     }
+  };
 
   return (
     <>
-    <div className="App">
-      {!showChat ? 
-        (<div className='joinChatContainer'>
+      <div className="App">
+        {!showChat ? (
+          <div className="joinChatContainer">
             <h3>Join a chat</h3>
             <label htmlFor="name">Username</label>
-            <input type="text" placeholder="Join..." 
-            onChange={handleJoinChange}
-            value={userName}
+            <input
+              type="text"
+              placeholder="Join..."
+              onChange={handleJoinChange}
+              value={userName}
             />
             <label htmlFor="name">Room Name</label>
-            <input type="text" placeholder="Room Id..." 
-            onChange={handleRoomId} 
-            value={room}/>
+            <input
+              type="text"
+              placeholder="Room Id..."
+              onChange={handleRoomId}
+              value={room}
+            />
             <button onClick={joinRoom}>Join a Chat Room</button>
-      </div>)
-      : (
-      <Chats 
-      socket={socket}
-      username={userName}
-      room={room}
-      />
-      )}
-
-    </div>
+          </div>
+        ) : (
+          <Chats socket={socket} username={userName} room={room} />
+        )}
+      </div>
     </>
   );
 }
